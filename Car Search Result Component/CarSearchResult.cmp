@@ -1,0 +1,28 @@
+<aura:component implements="force:appHostable" extends="c:Base" controller="CarSearchController">
+    <aura:attribute type="Car__c[]" name="cars" access="public"/>
+    <aura:attribute type="String" name="carTypeId" access="private" default=""/>
+    <aura:attribute type="Boolean" name="carFound" access="private" default="false"/>
+    <aura:attribute type="Id" name="selectedCarId" access="public"/>
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <aura:handler name="carSelectEvent" event="c:CarSelect" action="{! c.onSelectCar}"/>
+    
+    <aura:method action="{!c.doSearch}" name="searchCars" access="public">
+        <aura:attribute name="carTypeIdFromMethod" type="String" default=""/>
+    </aura:method>
+    
+    <lightning:layout multipleRows="true" horizontalAlign="center">
+        <aura:if isTrue="{!v.carFound}">
+            <aura:iteration items="{!v.cars}" var="car">
+            	<lightning:layoutItem padding="around-small" size="12"
+                                      smallDeviceSize="6"
+                                      mediumDeviceSize="4"
+                                      largeDeviceSize="3">
+                    <c:CarTitle car="{!car}" selected="{! car.Id == v.selectedCarId ? true :false}"/> 
+                   <!-- {!car.Name}-->
+                </lightning:layoutItem>
+            </aura:iteration>
+        </aura:if>
+    </lightning:layout>
+</aura:component>

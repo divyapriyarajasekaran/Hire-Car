@@ -1,0 +1,29 @@
+<aura:component controller= "CarSearchType" extends="c:Base" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global">
+    <aura:attribute name="searchLabel" type="String" default="Search"/>
+    <aura:attribute name="newLabel" type="String" default="New"/>
+    <aura:attribute name="showNew" type="Boolean" default="false"/>
+    <aura:attribute name="carTypes" type="Car_Type__c[]"/>
+    
+    <aura:registerEvent name="searchFormSubmit" type="c:SearchFormSubmitEvent"/>
+    
+    <aura:handler name="init" value="{!this}" action="{! c.doInit}"/>
+    
+    <lightning:layout horizontalAlign="center" verticalAlign="end">
+        <lightning:layoutItem padding="around-small">
+            <lightning:select name="selectItem" label="All Types" aura:id="carTypeList" variant="label-hidden" value="" >
+                <option value="">All Types</option>
+                <aura:iteration items="{!v.carTypes}" var="carType">
+                    <option value="{!carType.Id}" text="{!carType.Name}"/>
+                </aura:iteration>
+            </lightning:select>
+        </lightning:layoutItem>
+        
+        <lightning:layoutItem padding="around-small">
+            <lightning:button variant="brand" label="{!v.searchLabel}" onclick ="{!c.onclickOfSearch}"/>
+            
+            <aura:if isTrue="{!v.showNew}">
+                <lightning:button variant="neutral" label="{!v.newLabel}" onclick = "{! c.createNewRecord}"/>
+            </aura:if>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>
